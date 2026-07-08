@@ -6,7 +6,7 @@ COPY package*.json ./
 RUN npm install
 
 COPY . .
-RUN npm vite build
+RUN npx vite build
 
 # ─────────────────────────────────────────
 # Production stage

@@ -624,3 +624,40 @@ async def list_users(
     result = await db.execute(query)
     users = result.scalars().all()
     return list(users)
+# ═══════════════════════════════════════
+# TEMPORARY ENDPOINT: SETUP FIRST ADMIN
+# ═══════════════════════════════════════
+@router.post("/setup-admin", tags=["Setup"])
+async def setup_admin(db: AsyncSession = Depends(get_db)):
+    """مسار مؤقت لتهيئة أول مشرف في النظام"""
+    # 1. إنشاء المنظمة
+    org = Organization(name="NRC Operations")
+    db.add(org)
+    await db.commit()
+    await db.refresh(org)
+
+    # 2. إنشاء حسابك كمدير
+    user = await register_user(
+        db=db,
+        email="eng.alfakih@gmail.com",
+        password="Password123!",
+        name="Abdulmajid Al-Faqih",
+        org_id=org.id
+    )
+    await db.commit()
+
+    # 3. إنشاء الصلاحية الإدارية وربطها بك
+    role = Role(name="ORG_ADMIN", org_id=org.id)
+    db.add(role)
+    await db.commit()
+    await db.refresh(role)
+
+    user_role = UserRole(user_id=user.id, role_id=role.id)
+    db.add(user_role)
+    await db.commit()
+
+    return {
+        "message": "تم إنشاء حساب المدير بنجاح!", 
+        "email": user.email, 
+        "password": "Password123!"
+    }

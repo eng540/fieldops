@@ -6,6 +6,11 @@ COPY package*.json ./
 RUN npm install
 
 COPY . .
+
+# 🔴 التعديل الجذري: فتح نافذة لسحب المتغير من منصة Railway أثناء البناء
+ARG VITE_API_BASE_URL
+ENV VITE_API_BASE_URL=$VITE_API_BASE_URL
+
 RUN npx vite build
 
 # ─────────────────────────────────────────

@@ -10,7 +10,7 @@ Constitutional:
   to avoid the DEF-2 PostgreSQL-only ENUM issue from Sprint-1.
 
 Revision ID: sprint2_cp1
-Revises: None
+Revises: sprint1_projects
 Create Date: 2025-01-15
 """
 from typing import Sequence, Union

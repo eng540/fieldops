@@ -632,7 +632,7 @@ async def setup_admin(db: AsyncSession = Depends(get_db)):
     """مسار مؤقت لتهيئة أول مشرف في النظام"""
     # 1. إنشاء المنظمة
 
-    org = Organization(name="NRC Operations", code="NRC-001")
+    org = Organization(name="NRC Operations", code="NRC-002")
     db.add(org)
     await db.commit()
     await db.refresh(org)
